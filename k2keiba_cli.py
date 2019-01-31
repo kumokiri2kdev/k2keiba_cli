@@ -5,6 +5,7 @@ import k2kparser.top as pt
 import k2kparser.den as pd
 import k2kparser.result as pr
 import k2kparser.result_params as prp
+import k2kparser.search as ps
 
 def print_delimiter(tag):
     print('--- {} ---'.format(tag))
@@ -138,6 +139,18 @@ def result_top(url, param):
         else:
             result_day(kaisai_list[selected])
 
+def search_top(url, param):
+    key = input('[検索名] >> ')
+
+    p = ps.ParserSearch('/JRADB/accessR.html', 'pw02uliD1', key)
+    uma_list = p.parse()
+
+    logger.info('--- Key = {} ---'.format(key))
+
+    for i, uma in enumerate(uma_list):
+        print('[{}] : {}'.format(i, uma['name']))
+
+
 def top_menu():
     p = pt.ParserTop()
     params = p.parse()
@@ -168,6 +181,11 @@ def top_menu():
         'tokubetu': {
             'tag': '特別登録馬',
             'availability': False
+        },
+        'search': {
+            'tag': '検索',
+            'availability': True,
+            'func': search_top
         }
     }
 
